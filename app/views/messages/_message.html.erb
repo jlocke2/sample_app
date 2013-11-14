@@ -1,0 +1,29 @@
+<li class="content-msg col-md-8 col-md-offset-2">
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title" style="display: inline-block"><% if current_page?(controller: 'messages', action: 'inbox') %>
+  Message from <%= User.find(message.sender_id).name %>
+  <% else %>  Message sent to <%= User.find(message.receiver_id).name %>
+  <% end %></h3>
+  <p class="reply pull-right"><%= link_to "reply", '#' %></p></div>
+ 
+  <div class="panel-body">
+    <span class="content-msg"><%= message.content %></span>
+  <div class="timestamp text-right text-muted">
+   <% if current_page?(controller: 'messages', action: 'inbox') %> Received <%= time_ago_in_words(message.created_at) %> ago.
+   <% else %> Sent <%= time_ago_in_words(message.created_at) %> ago.
+   <% end %>
+  </div>
+  </div>
+</div>
+</li>
+
+  <% if false %>
+  <li class="content-msg msg-dec">
+	
+<span class="content-msg">Receiver ID = <%= User.find(message.receiver_id).user_name %></span>
+  <span class="content-msg">Sender ID = <%= User.find(message.sender_id).user_name %></span>
+
+  
+</li>
+  <% end %>

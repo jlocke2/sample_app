@@ -1,0 +1,12 @@
+<% provide(:title, 'All messsages') %>
+<h1>Received Messages</h1>
+<h2><%= @ide %></h2>
+<h2><%= link_to "Outbox",   outbox_message_path %></h2>
+
+<%= will_paginate %>
+
+<ul class="microposts">
+ <%= render @messages %>
+</ul>
+
+<%= will_paginate %>

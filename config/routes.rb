@@ -2,11 +2,23 @@ SampleApp::Application.routes.draw do
   resources :users do
     member do
       get :following, :followers
+      post :approve, :decline
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts,only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  resources :pictures
+  resources :messages do
+    member do
+      get :inbox, :outbox
+    end
+  end
+
+ 
+# get '/', to: 'users#show', 
+   # constraints: lambda { |r| r.subdomain.present? && r.subdomain != 'www' }
+
   root 'static_pages#home'
   match '/help', to: 'static_pages#help', via: 'get'
   match '/about', to: 'static_pages#about', via: 'get'
@@ -71,4 +83,5 @@ SampleApp::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
 end

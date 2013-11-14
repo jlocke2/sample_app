@@ -1,0 +1,33 @@
+<% provide(:title, @user.name) %>
+<div class="row">
+  <aside class="col-md-3">
+    <section>
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.name %><br/>
+        <%= @email %>
+      </h1>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+    <section>
+      
+        <%= if current_user == @user
+     link_to 'Add new pictures', new_picture_path # render partial: "product", collection: @products
+    end
+       %>
+    </section>
+  </aside>
+	<div class="col-md-9">
+		
+	    <% if @user.pictures.any? %>
+	      <h3>Pictures (<%= @user.pictures.count %>)</h3>
+	      <ol class="microposts">
+	        <%= render @pictures %>
+	      </ol>
+	      <%= will_paginate @pictures %>
+	    <% end %>
+	  </div>
+  
+</div>

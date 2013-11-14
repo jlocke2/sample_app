@@ -1,0 +1,9 @@
+<% provide(:title, 'All messsages') %>
+<h1>Sent Messages</h1>
+<h2><%= link_to "Inbox",   inbox_message_path %></h2>
+
+
+<ul class="microposts">
+ <%= render @messages %>
+</ul>
+

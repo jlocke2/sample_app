@@ -5,11 +5,13 @@ class UsersController < ApplicationController
 
   def index
     @users = User.paginate(page: params[:page])
+
   end
   
   def show
-  	@user = User.find(params[:id])
+  	@user = User.find_by(user_name: params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
+    @email = @user.email
   end
 
   def new
@@ -19,6 +21,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      UserMailer.welcome_email(@user).deliver
       sign_in @user
     	flash[:success] = "Welcome to the Sample App!"
     	redirect_to @user
@@ -61,12 +64,33 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  def approve
+    @user = User.find_by(user_name: params[:id])
+    if @user.update_attribute(:admin, true)
+    flash[:success] = "User made into an admin."
+    redirect_to users_url
+  else
+   render "something"
+  end 
+end
+
+ def decline
+    @user = User.find_by(user_name: params[:id])
+    if @user.update_attribute(:admin, false)
+    flash[:danger] = "User removed as an admin."
+    redirect_to users_url
+  else
+   render "something"
+  end 
+end
+    
+
 
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.fetch(:user, {}).permit(:name, :user_name, :email, :password,
+                                   :password_confirmation, :avatar)
     end
 
     # Before filters
@@ -74,7 +98,7 @@ class UsersController < ApplicationController
     
 
     def correct_user
-      @user = User.find(params[:id])
+      @user = User.find_by(user_name: params[:id])
       redirect_to(root_url) unless current_user?(@user)
     end
 

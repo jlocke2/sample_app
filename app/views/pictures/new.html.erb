@@ -1,0 +1,21 @@
+<% provide(:title, "New Pictures") %>
+<h1>Add A New Picture</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:picture, url: pictures_path, :html => {:multipart => true}) do |f| %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :description %>
+      <%= f.text_field :description %>
+
+      <%= f.file_field :image %>
+
+      <%= f.submit "Add your new picture", class: "btn mybtn btn-lg btn-primary" %>
+    <% end %>
+
+    
+  </div>
+</div>
